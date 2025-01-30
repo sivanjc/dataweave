@@ -1,0 +1,20 @@
+%dw 2.0
+output application/json
+var obj = {
+  "z05": true,
+  "z01": false,
+  "z10": true,
+  "z08": true,
+  "z11": false,
+  "z00": false,
+  "z02": false,
+  "z09": true,
+  "z06": true,
+  "z04": false,
+  "z07": true,
+  "z03": true,
+  "z12": false
+}
+---
+obj orderBy (-$$[1 to -1])
+// obj orderBy $$
