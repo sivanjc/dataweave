@@ -1,3 +1,14 @@
+%dw 2.0
+output application/json
+fun recursiveFieldMask(inputPayload, keyName, fieldsToMask) = 
+  inputPayload match {
+    case is Array  -> inputPayload map recursiveFieldMask($, null, fieldsToMask)
+    case is Object -> inputPayload mapObject {($$): recursiveFieldMask($, $$, fieldsToMask)}
+    else           -> if(fieldsToMask contains(keyName as String)) "****" else inputPayload
+  }
+---
+recursiveFieldMask(payload, null, ["firstName","lastName","Currency","Type","number"])
+
 /***
 {
   "customer": {
