@@ -111,3 +111,64 @@ recursiveFieldMask(payload, null, ["firstName","lastName","Currency","city","num
   }
 }
 ***/
+
+/***
+{
+  "customer": {
+    "personalDetails": {
+      "firstName": "Alex",
+      "lastName": null,
+      "socialSecurityNumber": "123-45-6789",
+      "dateOfBirth": "1985-12-10",
+      "passportNumber": "B98765432",
+      "driversLicense": "DL123456789"
+    },
+    "contactInformation": {
+      "email": "alex.johnson@financecorp.com",
+      "phoneNumbers": [
+        "+1-555-555-5555",
+        "+1-555-666-6666"
+      ],
+      "street": "789 Oak Avenue",
+      "city": "Gotham",
+      "state": "CA",
+      "zipCode": "90210",
+      "country": "USA"
+    },
+    "financialAccounts": [
+      {
+        "accountId": "ACC-004-56789012",
+        "accountType": "checking",
+        "balance": 3200.50,
+        "currency": "USD"
+      },
+      {
+        "accountId": "ACC-005-67890123",
+        "accountType": "savings",
+        "balance": 20000.00,
+        "currency": "USD"
+      },
+      {
+        "accountId": "ACC-006-78901234",
+        "accountType": "credit",
+        "balance": -10000.00,
+        "currency": "USD"
+      }
+    ]
+  }
+}
+
+{
+    "firstName" : [
+        "Ramu",
+        "Kumar"
+    ]
+}
+
+{
+    "firstName" : {
+        "jack" : "Ramu",
+        "delta" : "Kumar"
+    }
+}
+*[**/
