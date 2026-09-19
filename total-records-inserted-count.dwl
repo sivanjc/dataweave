@@ -1,42 +1,47 @@
 /***
 Input
 {
-  "status": "Raw Processing Data",
-  "initialDBRecords": [
+  "sourceRecordCount": 3,
+  "targetInitialRecordCount": [
     {
-      "COUNT(*)": 1
+      "COUNT(*)": 4
     }
   ],
-  "newCSVRecords": 5,
-  "finalDBRecords": [
+  "targetFinalRecordCount": [
     {
-      "COUNT(*)": 5
+      "COUNT(*)": 7
     }
-  ],
-  "Delta": [
-    5
   ]
 }
 
 Expected Output
 {
   "status": "Processing Completed",
-  "initialDBRecords": 1,
-  "newCSVRecords": 5,
-  "finalDBRecords": 5,
-  "delta": -1
+  "initialDBRecords": 4,
+  "finalDBRecords": 7,
+  "newCSVRecords": 3,
+  "delta": "3 records added",
+  "error": "0 records failed"
 }
 **/
 
 %dw 2.0
+fun calculate () = (
+ (vars.targetFinalRecordCount."COUNT(*)"[0]+vars.sourceRecordCount) - (vars.targetInitialRecordCount."COUNT(*)"[0] + vars.sourceRecordCount)	
+)
+
+fun calculateErrorCount() = (
+	// original records + new records - current records
+	(vars.targetInitialRecordCount."COUNT(*)"[0] + vars.sourceRecordCount) - (vars.targetFinalRecordCount."COUNT(*)"[0] ) 
+)
 output application/json
-fun calculate () = (payload.finalDBRecords."COUNT(*)"[0] - ( payload.initialDBRecords."COUNT(*)"[0] + payload.newCSVRecords ))
 ---
 {
 	status : "Processing Completed",
-	initialDBRecords : payload.initialDBRecords."COUNT(*)"[0],
-  newCSVRecords: payload.newCSVRecords,
-  finalDBRecords: payload.finalDBRecords."COUNT(*)"[0],
-  delta : calculate()
+	initialDBRecords: vars.targetInitialRecordCount."COUNT(*)"[0],
+	finalDBRecords: vars.targetFinalRecordCount."COUNT(*)"[0],
+	newCSVRecords: vars.sourceRecordCount,
+	delta: calculate() ++ " records added",
+	error: calculateErrorCount() ++ " records failed"
 }
 
